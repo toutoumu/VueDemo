@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<script src="./vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<button @click="change">点击</button>
+		<div v-if="showKey=='a'"> if </div>
+		<div v-else-if="showKey=='b'">elseif</div>
+		<div v-else>else</div>
+		<div v-show="!isTrue"> {{message}} </div>
+
+		<div v-if="isTrue">
+			<input key='abc' />
+		</div>
+		<div v-else>
+			<input key='cba' />
+		</div>
+	</div>
+	<script>
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				showKey: 'a',
+				message: 'hello world',
+				isTrue: false
+			},
+			methods: {
+				change: function () {
+					this.isTrue = !this.isTrue
+				}
+			},
+		})
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>父子组件传值</title>
+	<script src="./vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<counter @docount='inc' v-bind:count='2'></counter>
+		<counter @docount='inc' :count='3'></counter>
+		<div>{{total}}</div>
+	</div>
+	<script>
+		var counter = {
+			props: ['count'],
+			data() {
+				return {
+					number: this.count
+				}
+			},
+			methods: {
+				cal: function () {
+					// 触发事件并传值,父组件可以监听该事件并获取到值
+					this.$emit('docount', this.number)
+				}
+			},
+			template: '<div @click="cal"> {{number}}</div>'
+		}
+		let vm = new Vue({
+			el: '#app',
+			components: {
+				counter: counter
+			},
+			data: {
+				total: 5,
+				content: 'hello world'
+			},
+			methods: {
+				inc: function (v) {
+					this.total += v
+				}
+			}
+		});
+	</script>
+
+</body>
+
+</html>

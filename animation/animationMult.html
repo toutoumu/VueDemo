@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<!-- http://velocityjs.org/ -->
+	<!-- https://www.cnblogs.com/guandekuan/p/6643988.html -->
+	<title>动画velocity</title>
+	<script src="../vue.js"></script>
+	<script src="../velocity.min.js"></script>
+	<!-- https://daneden.github.io/animate.css/ -->
+	<link rel="stylesheet" href="../animate.css" type="text/css">
+	<style>
+		.v-enter,
+		.v-leave-to {
+			opacity: 0;
+		}
+
+		.v-enter-active,
+		.v-leave-active {
+			transition: opacity 1s;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<!-- 加上key防止dom复用 -->
+		<transition mode='out-in'>
+			<div v-if="show" key='hello'>hello world</div>
+			<div v-else key='bye'>bye world</div>
+		</transition>
+
+		<!-- 组件之间过渡动画 -->
+		<transition mode='out-in'>
+			<child v-if="show"></child>
+			<child-one v-else></child-one>
+		</transition>
+
+		<!-- 组件之间过渡动画 -->
+		<transition mode='out-in'>
+			<component :is="type"></component>
+		</transition>
+		<button @click="handlerClick" style="opacity: 1;">click</button>
+	</div>
+	<script>
+		Vue.component('child', {
+			template: '<div>child</div>'
+		})
+		Vue.component('child-one', {
+			template: '<div>child-one</div>'
+		})
+		let vm = new Vue({
+			el: '#app',
+			data() {
+				return {
+					show: true,
+					type: 'child'
+				}
+			},
+			methods: {
+				handlerClick: function () {
+					this.show = !this.show
+					this.type = this.type == 'child' ? 'child-one' : 'child'
+				},
+			},
+		});
+	</script>
+
+</body>
+
+</html>

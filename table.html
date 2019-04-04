@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>ref is 使用</title>
+	<script src="./vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<button ref="btn" @click='btnClick'>点击打印元素</button>
+		<table>
+			<tbody>
+				<!-- 由于tbody只能嵌套tr因此需要使用is来标明这个标签实际是 自定义组件Row -->
+				<!-- ref 指向组件的引用 -->
+				<tr is='Row' ref="item1" @clicked="doSum"></tr>
+				<tr is='Row' ref="item2" @clicked="doSum"></tr>
+			</tbody>
+		</table>
+		<div>总和 {{sum}}</div>
+	</div>
+	<script>
+		// 模板里的data必须是function
+		Vue.component('Row', {
+			data() {
+				return {
+					c: '这是一个单元格: ',
+					count: 0
+				}
+			},
+			methods: {
+				doClick: function () {
+					this.count++
+					// 触发一个名字叫clicked的事件,事件处理函数为doSum
+					this.$emit('clicked')
+				}
+			},
+			template: '<tr><td @click="doClick">{{c}}{{count}} </td></tr>'
+		})
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				content: 'hello world',
+				sum: 0
+			},
+			methods: {
+				btnClick: function () {
+					console.log(this.$refs.btn.innerHTML)
+					console.log(vm.$el)
+				},
+				doSum: function () {
+					this.sum = this.$refs.item1.count + this.$refs.item2.count
+				}
+			},
+		});
+	</script>
+
+</body>
+
+</html>

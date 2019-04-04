@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<!-- http://velocityjs.org/ -->
+	<!-- https://www.cnblogs.com/guandekuan/p/6643988.html -->
+	<title>动画velocity</title>
+	<script src="../vue.js"></script>
+	<script src="../velocity.min.js"></script>
+	<!-- https://daneden.github.io/animate.css/ -->
+	<link rel="stylesheet" href="../animate.css" type="text/css">
+
+</head>
+
+<body>
+	<div id="app">
+		<fade :show='show'>
+			<div>adf</div>
+		</fade>
+		<button @click="handlerClick">click</button>
+	</div>
+	<script>
+		Vue.component('fade', {
+			props: {
+				show: {
+					type: Boolean,
+					default: true
+				},
+			},
+			template: "<transition " +
+				"		@before-enter='handlerBeforeEnter' " +
+				"		@enter='handlerEnter' " +
+				"		@after-enter='handlerAfterEnter'> " +
+				" 			<slot v-if='show'></slot> " +
+				"		</transition>",
+			methods: {
+				handlerBeforeEnter(el) {
+					el.style.opacity = 0
+				},
+				handlerEnter(el, done) {
+					Velocity(el, {
+						opacity: 1
+					}, {
+						duration: 1000,
+						complete: done
+					})
+				},
+				handlerAfterEnter(el) {
+					el.style.color = 'red'
+				}
+			},
+		})
+
+		let vm = new Vue({
+			el: '#app',
+			data() {
+				return {
+					show: true,
+				}
+			},
+			methods: {
+				handlerClick: function () {
+					this.show = !this.show
+				},
+
+			},
+		});
+	</script>
+
+</body>
+
+</html>

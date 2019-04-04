@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>原生事件监听</title>
+	<script src="./vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<child @click.native="handlerClick"></child>
+	</div>
+	<script>
+		Vue.component('child', {
+			template: '<div @click="handlerChildClick">Child</div>',
+			methods: {
+				handlerChildClick() {
+					this.$emit('click')
+				}
+			}
+		})
+
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				content: 'hello world'
+			},
+			methods: {
+				handlerClick() {
+					alert('click')
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

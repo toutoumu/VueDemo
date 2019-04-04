@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>vue生命周期</title>
+	<script src="../vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<div>{{message +" abc"}}</div>
+		<div v-text="message +' abc'"></div>
+		<div v-html="message +' abc'"></div>
+	</div>
+	<script>
+		// Vue去掉警告 You are running Vue in development mode
+		// http://www.voidcn.com/article/p-dwfxtwib-bpw.html
+		Vue.config.productionTip = false
+		
+		var vm = new Vue({
+			el: '#app',
+			data() {
+				return {
+					message: "<div>abc</div>"
+				}
+			},
+			beforeCreate() {
+				console.log('beforeCreated')
+				console.log(this.$el)
+			},
+			created() {
+				// 可以在这里获取网络数据
+				console.log('created')
+				console.log(this.$el)
+			},
+			beforeMount() {
+				// 还是原始dom
+				console.log('beforeMount')
+				console.log(this.$el)
+			},
+			mounted() {
+				// 已经渲染的dom
+				console.log('mounted')
+				console.log(this.$el)
+			},
+			beforeDestroy() {
+				// 需要手动调用 vm.$destory
+				console.log('beforeDestroy')
+				console.log(this.$el)
+			},
+			destroyed() {
+				// 需要手动调用 vm.$destory
+				console.log('destroyed')
+				console.log(this.$el)
+			},
+			beforeUpdate() {
+				// 修改data里面的值会调用这里
+				console.log('beforeUpdate')
+				console.log(this.$el)
+			},
+			updated() {
+				// 修改data里面的值会调用这里
+				console.log('updated')
+				console.log(this.$el)
+			},
+			activated() {
+				// 如果组件被 keep-alive 包裹那么就多了这个生命周期方法
+				console.log('activated')
+			},
+			deactivated() {
+				// 如果组件被 keep-alive 包裹那么就多了这个生命周期方法
+				console.log('deactivated')
+			},
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<script src="../vue.js"></script>
+	<style>
+		/* 这里的前缀是 transition 标签中定义的 */
+		.myFade-enter,
+		.myFade-leave-to {
+			opacity: 0;
+			/* 1不透明 */
+		}
+
+		/* 这里的前缀是 transition 标签中定义的 */
+		.myFade-enter-active,
+		.myFade-leave-active {
+			/* transition: opacity 3s; 相当于下面两行*/
+			transition-duration: 3s;
+			transition-property: opacity;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<button @click="handlerClick">Add</button>
+		<transition-group name='myFade'>
+			<div v-for="(item, index) in list" :key="item.id">
+				{{item.id}}--{{ item.content }} {{index}}
+			</div>
+		</transition-group>
+	</div>
+	<script>
+		var counter = 0
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				content: 'hello world',
+				list: []
+			},
+			methods: {
+				handlerClick() {
+					this.list.push({
+						id: counter++,
+						content: 'title'
+					})
+				}
+			},
+		});
+	</script>
+
+</body>
+
+</html>

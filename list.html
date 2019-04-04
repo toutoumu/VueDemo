@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<script src="./vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<button v-on:click="addItem">添加</button>
+		<button v-on:click="update">修改</button>
+		<button v-on:click="del">删除</button>
+		<ul>
+			<template v-for="(item, index) in list">
+				<li :key="item.id"> {{item.content}} </li>
+			</template>
+			<!-- <li v-for="(item, index) in list" :key="item.id">{{item.content}}</li> -->
+		</ul>
+
+		<div v-for="(item, key,index) in objs" :key="index">
+			{{index}}|{{item}}-{{key}}
+		</div>
+
+	</div>
+
+	<script>
+		// js数组操作大全 https://www.cnblogs.com/lzm1989/p/5967815.html
+		// push pop shift unshift splice sort reverse
+		let vm = new Vue({
+			el: '#app',
+			data: {
+				objs: {
+					name: 'abc',
+					age: 23,
+					sex: 1
+				},
+				list: [{
+						id: '000',
+						content: 'item0'
+					}, {
+						id: '001',
+						content: 'item1'
+					},
+					{
+						id: '002',
+						content: 'item2'
+					},
+					{
+						id: '003',
+						content: 'item3'
+					},
+					{
+						id: '004',
+						content: 'item4'
+					},
+				]
+			},
+			methods: {
+				addItem: function () {
+					this.list.push({
+						id: '00' + this.list.length,
+						content: 'item' + this.list.length
+					})
+				},
+				update: function () {
+					this.list.splice(1, 1, {
+						id: '001',
+						content: 'item4'
+					})
+					// 修改obj
+					Vue.set(vm.objs, "name", "ccc")
+					vm.$set(vm.objs, "addressdd", "dddd")
+					// 修改数组
+					Vue.$set(vm.list, 1, {
+						id: 'ddd',
+						content: 'ddd'
+					})
+					vm.$set(vm.list, 1, {
+						id: 'ddd',
+						content: 'ddd'
+					})
+				},
+				del: function () {
+					this.list.pop()
+				}
+			},
+		});
+	</script>
+
+</body>
+
+</html>

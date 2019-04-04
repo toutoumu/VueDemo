@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<script src="../vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<!-- 使用 v-model 与 data 里面的 inputVal 双向绑定 -->
+		<input type="text" v-model='inputVal'>
+		<!-- 使用 @click 绑定点击事件 -->
+		<input type="button" @click="clicked" value="提交">
+		<ul>
+			<!-- <li v-for="item in list">{{item}}</li> -->
+			<!-- v-bind 可以简写为 : -->
+			<!-- 使用 @delete 监听子组件触发的自定义事件 -->
+			<todo-item :item="item" :index="index" v-for="(item,index) in list" @delete='handlerItemDel'>
+			</todo-item>
+		</ul>
+	</div>
+	<script>
+		// 定义局部组件
+		var TodoItem = {
+			props: ['item', 'index'],
+			template: "<li @click='handlerItemClick'>{{item}}</li>",
+			methods: {
+				handlerItemClick: function () {
+					// 触发事件[delete]并传值[index]
+					this.$emit('delete', this.index)
+				}
+			},
+		}
+		// 定义全局组件
+		/* Vue.component('TodoItem',{
+		 props:['item'],
+		 template:'<li>{{item}}</li>'
+		 }) */
+		var app = new Vue({
+			el: '#app',
+			// 注册局部组件
+			components: {
+				TodoItem: TodoItem
+			},
+			data: {
+				inputVal: '',
+				list: []
+			},
+			methods: {
+				clicked: function () {
+					// 向数组添加一项
+					this.list.push(this.inputVal);
+					this.inputVal = ''
+				},
+				handlerItemDel: function (index) {
+					// 从索引 index处开始 删除一项 如 index = 0 删除 第 0 项
+					this.list.splice(index, 1)
+				}
+			}
+		})
+	</script>
+
+</body>
+
+</html>
