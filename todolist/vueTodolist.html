@@ -1,67 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <script src="../resource/vue.js"></script>
+        <title>vueTodoList</title>
+    </head>
+    <body>
+        <div id="app">
+            <!-- v-model='data中属性名称' 与 data 中的数据双向绑定 -->
+            <input type="text" v-model="content" />
+            <!-- @[事件名称] 为 button 绑定 methods 中的事件 -->
+            <button @click="handlerBtnClick">提交</button>
+            <ul>
+                <li v-for="(item,index) in list" :key="index">
+                    {{ index }}--{{ item }}
+                </li>
+                <!-- @delete 监听组件自定义事件  -->
+                <todo-item
+                    @delete="handlerItemDelete"
+                    v-for="(item, index) in list"
+                    :item="item"
+                    :index="index"
+                    :key="index"
+                ></todo-item>
+                <todo
+                    v-for="(item, index) in list"
+                    :item="item"
+                    :index="index"
+                    :key="index"
+                ></todo>
+            </ul>
+        </div>
 
-<head>
-	<meta charset="UTF-8">
-	<title>Title</title>
-	<script src="../vue.js"></script>
-</head>
+        <script>
+            // 注册一个全局组件
+            Vue.component('TodoItem', {
+                // 为模板定义 index 和 item 属性
+                // props:['index','item']
+                props: {
+                    index: Number,
+                    item: String
+                },
+                template:
+                    '<li @click="handlerItemClick">{{index}}--{{item}}</li>',
+                methods: {
+                    handlerItemClick() {
+                        // 触发 自定义事件 [delete] 并传递参数
+                        this.$emit('delete', this.index)
+                    }
+                }
+            })
 
-<body>
-	<div id="app">
-		<!-- 使用 v-model 与 data 里面的 inputVal 双向绑定 -->
-		<input type="text" v-model='inputVal'>
-		<!-- 使用 @click 绑定点击事件 -->
-		<input type="button" @click="clicked" value="提交">
-		<ul>
-			<!-- <li v-for="item in list">{{item}}</li> -->
-			<!-- v-bind 可以简写为 : -->
-			<!-- 使用 @delete 监听子组件触发的自定义事件 -->
-			<todo-item :item="item" :index="index" v-for="(item,index) in list" @delete='handlerItemDel'>
-			</todo-item>
-		</ul>
-	</div>
-	<script>
-		// 定义局部组件
-		var TodoItem = {
-			props: ['item', 'index'],
-			template: "<li @click='handlerItemClick'>{{item}}</li>",
-			methods: {
-				handlerItemClick: function () {
-					// 触发事件[delete]并传值[index]
-					this.$emit('delete', this.index)
-				}
-			},
-		}
-		// 定义全局组件
-		/* Vue.component('TodoItem',{
-		 props:['item'],
-		 template:'<li>{{item}}</li>'
-		 }) */
-		var app = new Vue({
-			el: '#app',
-			// 注册局部组件
-			components: {
-				TodoItem: TodoItem
-			},
-			data: {
-				inputVal: '',
-				list: []
-			},
-			methods: {
-				clicked: function () {
-					// 向数组添加一项
-					this.list.push(this.inputVal);
-					this.inputVal = ''
-				},
-				handlerItemDel: function (index) {
-					// 从索引 index处开始 删除一项 如 index = 0 删除 第 0 项
-					this.list.splice(index, 1)
-				}
-			}
-		})
-	</script>
+            // 定义一个局部组件, 局部组件需要在 components 注册
+            const Todo = {
+                props: {
+                    index: Number,
+                    item: String
+                },
+                template: '<li>{{index}}--{{item}}</li>'
+            }
 
-</body>
-
+            const app = new Vue({
+                el: '#app', // 接管页面中ID 为 app 的部分
+                components: {
+                    Todo: Todo // 注册局部组件
+                },
+                data() {
+                    // 定义数据
+                    return {
+                        content: '',
+                        list: ['第一个的内容', '第二课的内容']
+                    }
+                },
+                methods: {
+                    handlerBtnClick() {
+                        if (this.content) {
+                            this.list.push(this.content)
+                            this.content = ''
+                        }
+                    },
+                    handlerItemDelete(index) {
+                        this.list.splice(index, 1)
+                    }
+                }
+            })
+            // 定时器
+            setTimeout(() => {
+                // 或者app.$data.content = 'ccc'
+                app.content = 'ccc'
+            }, 2000)
+        </script>
+    </body>
 </html>

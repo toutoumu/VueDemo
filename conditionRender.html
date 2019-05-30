@@ -1,43 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>条件渲染</title>
+        <script src="./resource/vue.js"></script>
+    </head>
 
-<head>
-	<meta charset="UTF-8">
-	<title>Title</title>
-	<script src="./vue.js"></script>
-</head>
+    <body>
+        <div id="app">
+            <button @click="change">点击</button>
+            <!-- v-if 当条件为false是不会渲染 v-show 会渲染但是会有 display:none -->
+            <div v-if="showKey=='a'">if</div>
+            <div v-else-if="showKey=='b'">elseif</div>
+            <div v-else>else</div>
+            <div v-show="!isTrue">{{ message }}</div>
 
-<body>
-	<div id="app">
-		<button @click="change">点击</button>
-		<div v-if="showKey=='a'"> if </div>
-		<div v-else-if="showKey=='b'">elseif</div>
-		<div v-else>else</div>
-		<div v-show="!isTrue"> {{message}} </div>
-
-		<div v-if="isTrue">
-			<input key='abc' />
-		</div>
-		<div v-else>
-			<input key='cba' />
-		</div>
-	</div>
-	<script>
-		let vm = new Vue({
-			el: '#app',
-			data: {
-				showKey: 'a',
-				message: 'hello world',
-				isTrue: false
-			},
-			methods: {
-				change: function () {
-					this.isTrue = !this.isTrue
-				}
-			},
-		})
-	</script>
-
-</body>
-
+            <!-- 如果这里没有使用 key 且值不能相同 那么两个input切换时由于重用,会导致文本框内容不会被清空 -->
+            <div v-if="isTrue">
+                用户名: <input key="abc" />
+            </div>
+            <div v-else>
+                邮箱: <input key="abcd" />
+            </div>
+        </div>
+        <script>
+            let vm = new Vue({
+                el: '#app',
+                data: {
+                    showKey: 'a',
+                    message: 'hello world',
+                    isTrue: false
+                },
+                methods: {
+                    change: function() {
+                        this.isTrue = !this.isTrue
+                    }
+                }
+            })
+        </script>
+    </body>
 </html>

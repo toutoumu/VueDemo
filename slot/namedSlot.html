@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>具名插槽使用slot</title>
+        <script src="../resource/vue.js"></script>
+    </head>
+
+    <body>
+        <div id="app">
+            <body-content>
+                <!-- 使用slot = '插槽名称' 指定为那个插槽插值 -->
+                <div slot="header">
+                    <p>这里是header</p>
+                </div>
+                <div slot="footer">这里是footer</div>
+            </body-content>
+        </div>
+        <script>
+            // 自定义组件,里面有两个插槽, header footer
+            Vue.component('BodyContent', {
+                props: {
+                    content: {
+                        type: String
+                    }
+                },
+                template: `<div>
+							<slot name="header">默认值</slot>
+							<p>这里是内容</p>
+							<slot name="footer">默认值</slot>
+					   	</div>`
+            })
+
+            let vm = new Vue({
+                el: '#app',
+                data: {
+                    content: 'hello world'
+                }
+            })
+        </script>
+    </body>
+</html>

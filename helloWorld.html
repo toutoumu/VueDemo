@@ -7,16 +7,21 @@
         <title>helloworld</title>
     </head>
     <body>
-        <div id="app"></div>
+        <div id="app">{{ content }}</div>
         <script>
             const app = new Vue({
-                el: '#app',
+                el: '#app', // 接管页面中ID 为 app 的部分
                 data() {
+                    // 定义数据
                     return {
-                        message: 'value'
+                        content: 'helloworld'
                     }
                 }
             })
+            setTimeout(() => {
+                // 或者app.$data.content = 'ccc'
+                app.content = 'ccc'
+            }, 2000)
         </script>
     </body>
 </html>

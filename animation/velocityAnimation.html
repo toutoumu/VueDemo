@@ -1,57 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <!-- http://velocityjs.org/ -->
+        <!-- https://www.cnblogs.com/guandekuan/p/6643988.html -->
+        <title>动画velocity</title>
+        <script src="../resource/vue.js"></script>
+        <script src="../resource/velocity.min.js"></script>
+        <!-- https://daneden.github.io/animate.css/ -->
+        <link rel="stylesheet" href="../resource/animate.css" type="text/css" />
+        <style></style>
+    </head>
 
-<head>
-	<meta charset="UTF-8">
-	<!-- http://velocityjs.org/ -->
-	<!-- https://www.cnblogs.com/guandekuan/p/6643988.html -->
-	<title>动画velocity</title>
-	<script src="../vue.js"></script>
-	<script src="../velocity.min.js"></script>
-	<!-- https://daneden.github.io/animate.css/ -->
-	<link rel="stylesheet" href="../animate.css" type="text/css">
-	<style>
-	</style>
-</head>
-
-<body>
-	<div id="app">
-		<transition name='fade' @before-enter="handlerBeforeEnter" @enter="handlerEnter"
-			@after-enter="handlerAfterEnter">
-			<div v-if="show">hello world</div>
-		</transition>
-		<button @click="handlerClick" style="opacity: 1;">click</button>
-	</div>
-	<script>
-		let vm = new Vue({
-			el: '#app',
-			data() {
-				return {
-					show: true,
-				}
-			},
-			methods: {
-				handlerClick: function () {
-					this.show = !this.show
-				},
-				handlerBeforeEnter(el) {
-					el.style.opacity = 0
-				},
-				handlerEnter(el, done) {
-					Velocity(el, {
-						opacity: 1
-					}, {
-						duration: 1000,
-						complete: done
-					})
-				},
-				handlerAfterEnter(el) {
-					el.style.color = 'red'
-				}
-			},
-		});
-	</script>
-
-</body>
-
+    <body>
+        <div id="app">
+            <transition
+                name="fade"
+                @before-enter="handlerBeforeEnter"
+                @enter="handlerEnter"
+                @after-enter="handlerAfterEnter"
+            >
+                <div v-if="show">hello world</div>
+            </transition>
+            <button @click="handlerClick" style="opacity: 1;">click</button>
+        </div>
+        <script>
+            let vm = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        show: true
+                    }
+                },
+                methods: {
+                    handlerClick: function() {
+                        this.show = !this.show
+                    },
+                    handlerBeforeEnter(el) {
+                        el.style.opacity = 0
+                    },
+                    handlerEnter(el, done) {
+                        // 需要手动调用 done() 表示动画执行完成
+                        Velocity(
+                            el,
+                            { opacity: 1 },
+                            { duration: 1000, complete: done }
+                        )
+                    },
+                    handlerAfterEnter(el) {
+                        el.style.color = 'red'
+                    }
+                }
+            })
+        </script>
+    </body>
 </html>

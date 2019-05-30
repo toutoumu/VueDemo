@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <script src="resource/vue.js"></script>
+        <title>计算属性,方法,侦听器</title>
+    </head>
+    <body>
+        <div id="app">
+            <div>firstName :{{ firstname }}</div>
+            <div>lastName :{{ lastName }}</div>
+            <div>fullNameMethod : {{ fullNameMethod() }}</div>
+            <div>fullNameComputed : {{ fullNameComputed }}</div>
+            <div>fullNameWatch : <span v-text="fullName"></span></div>
+        </div>
+        <script>
+            let app = new Vue({
+                el: '#app',
+                data: {
+                    content: 'hello world',
+                    firstname: 'abc',
+                    lastName: 'def',
+                    fullName: 'abcdef'
+                },
+                // 计算属性 的 get set
+                // computed: {
+                // 	fullName: {
+                // 		get: function () {
+                // 			return this.firstname + this.lastName
+                // 		},
+                // 		set: function (value) {
+                // 			console.log(value)
+                // 		}
+                // 	}
+                // },
+                // 计算属性,当依赖的值发生改变才会执行, 这里只要 firstname 或者 lastname 改变就会触发
+                computed: {
+                    fullNameComputed: function() {
+                        //  如果计算属性 依赖的值没有发生改变,页面数据发生改变不会重新计算
+                        console.log('computed 计算了')
+                        return this.firstname + this.lastName
+                    }
+                },
+                // 方法
+                methods: {
+                    // 使用方法每次更新都需要计算一次
+                    fullNameMethod: function() {
+                        console.log('methods 计算了')
+                        return this.firstname + this.lastName
+                    }
+                },
+                // 侦听,当依赖的值发生改变才会执行 ,这里只要 firstname 或者 lastname 改变就会触发
+                watch: {
+                    firstname: function() {
+                        //  如果侦听属性 依赖的值没有发生改变,页面数据发生改变不会重新计算
+                        console.log('watch: firstname计算了')
+                        this.fullName = this.firstname + this.lastName
+                    },
+                    lastName: function() {
+                        //  如果侦听属性 依赖的值没有发生改变,页面数据发生改变不会重新计算
+                        console.log('watch: lastName计算了')
+                        this.fullName = this.firstname + this.lastName
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

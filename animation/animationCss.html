@@ -1,77 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>动画使用animate.css</title>
+        <script src="../resource/vue.js"></script>
+        <!-- https://daneden.github.io/animate.css/ -->
+        <link rel="stylesheet" href="../resource/animate.css" type="text/css" />
+        <style>
+            /* 关键帧动画 */
+            @keyframes bounce-in {
+                0% {
+                    transform: scale(0);
+                }
 
-<head>
-	<meta charset="UTF-8">
-	<title>动画使用animate.css</title>
-	<script src="../vue.js"></script>
-	<!-- https://daneden.github.io/animate.css/ -->
-	<link rel="stylesheet" href="../animate.css" type="text/css">
-	<style>
-		/* 关键帧动画 */
-		@keyframes bounce-in {
-			0% {
-				transform: scale(0);
-			}
+                50% {
+                    transform: scale(1.5);
+                }
 
-			50% {
-				transform: scale(1.5);
-			}
+                100% {
+                    transform: scale(1);
+                }
+            }
 
-			100% {
-				transform: scale(1);
-			}
-		}
+            .enter {
+                transform-origin: left center;
+                animation: bounce-in 1s;
+            }
 
-		.enter {
-			transform-origin: left center;
-			animation: bounce-in 1s;
-		}
+            .leave {
+                transform-origin: left center;
+                animation: bounce-in 1s reverse;
+            }
+        </style>
+    </head>
 
-		.leave {
-			transform-origin: left center;
-			animation: bounce-in 1s reverse;
-		}
-	</style>
-</head>
-
-<body>
-	<div id="app">
-		<!-- 关键帧动画使用 -->
-		<!-- <transition name='myFade' enter-active-class="enter" leave-active-class="leave">
+    <body>
+        <div id="app">
+            <!-- 关键帧动画使用 -->
+            <!-- <transition name='myFade' enter-active-class="enter" leave-active-class="leave">
 			<div v-if="show">hello world</div>
 		</transition> -->
-		<transition 
-			name='myFade' 
-			appear appear-active-class="animated swing" 
-			enter-active-class="animated swing"
-			leave-active-class="animated shake">
-			<div v-if="show">hello world</div>
-		</transition>
-		<button @click="handlerClick" style="opacity: 1;">click</button>
-	</div>
-	<script>
-		let vm = new Vue({
-			el: '#app',
-			data() {
-				return {
-					show: true,
-					asdf: false,
-					asdfd: [1, 2, 3, 4],
-					lkj: [{
-						a: 23,
-						b: 23
-					}]
-				}
-			},
-			methods: {
-				handlerClick: function () {
-					this.show = !this.show
-				}
-			},
-		});
-	</script>
-
-</body>
-
+            <!-- 使用进入动画 除了添加 appear-active-class 之外,还需要添加 appear -->
+            <transition
+                name="myFade"
+                appear
+                appear-active-class="animated swing"
+                enter-active-class="animated swing"
+                leave-active-class="animated shake"
+            >
+                <div v-if="show">hello world</div>
+            </transition>
+            <button @click="handlerClick" style="opacity: 1;">click</button>
+        </div>
+        <script>
+            let vm = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        show: true
+                    }
+                },
+                methods: {
+                    handlerClick: function() {
+                        this.show = !this.show
+                    }
+                }
+            })
+        </script>
+    </body>
 </html>

@@ -4,9 +4,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>父子组件传值</title>
-	<script src="./vue.js"></script>
+	<script src="../resource/vue.js"></script>
 </head>
-
+<!-- 向子组件传值, 给子组件的props赋值即可 -->
+<!-- 向父组件传值, 1. 子组件触发自定义事件并带上参数, 2. 父组件捕获自定义事件处理 -->
 <body>
 	<div id="app">
 		<counter @docount='inc' v-bind:count='2'></counter>
@@ -16,13 +17,16 @@
 	<script>
 		var counter = {
 			props: ['count'],
-			data() {
+			data() {Value transfer
 				return {
+					// 子组件不能改变, 父组件的值,因此这里赋值给子组件的变量
 					number: this.count
 				}
 			},
 			methods: {
 				cal: function () {
+					// 不能修改父组件传递过来的值
+					// this.count = 2
 					// 触发事件并传值,父组件可以监听该事件并获取到值
 					this.$emit('docount', this.number)
 				}

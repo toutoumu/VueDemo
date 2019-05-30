@@ -1,57 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>动画</title>
+        <script src="../resource/vue.js"></script>
+        <style>
+            /*
+             显示动画
+             第一帧的时候 添加 .myFade-enter .myFade-enter-active
+             第二帧的时候 去掉 .myFade-enter 添加 .myFade-enter-to 这个时候 opacity 值变了所以触发了动画
+             最后一帧    去掉  .myFade-enter-active .myFade-enter-to
+             */
+             /*
+             隐藏动画
+             第一帧的时候 添加 .myFade-leave .myFade-leave-active
+             第二帧的时候 去掉 .myFade-leave 添加 .myFade-leave-to 这个时候 opacity 值变了所以触发了动画
+             最后一帧    去掉  .myFade-leave-active .myFade-leave-to
+             */
+            /* 这里的前缀[myFade]是 transition 标签中定义的 默认前缀是 v*/
+            .myFade-enter,
+            .myFade-leave-to {
+                opacity: 0; /* 1不透明 */
+            }
 
-<head>
-	<meta charset="UTF-8">
-	<title>动画</title>
-	<script src="../vue.js"></script>
-	<style>
-		/* 这里的前缀是 transition 标签中定义的 */
-		.myFade-enter,
-		.myFade-leave-to {
-			opacity: 0; /* 1不透明 */
-		}
+            /* 这里的前缀是 transition 标签中定义的 */
+            .myFade-enter-active,
+            .myFade-leave-active {
+                /* 监听opacity属性的变化执行动画 */
+                /* transition: opacity 3s; 相当于下面两行*/
+                transition-duration: 3s;
+                transition-property: opacity;
+            }
+        </style>
+    </head>
 
-		/* 这里的前缀是 transition 标签中定义的 */
-		.myFade-enter-active,
-		.myFade-leave-active {
-			/* transition: opacity 3s; 相当于下面两行*/
-			transition-duration: 3s;
-			transition-property: opacity;
-		}
-	</style>
-</head>
-
-<body>
-	<div id="app">
-		<!-- name:css动画,css类名称前缀 -->
-		<transition name='myFade'>
-			<div v-if="show">hello world</div>
-		</transition>
-		<button @click="handlerClick" style="opacity: 1;">click</button>
-	</div>
-	<script>
-		let vm = new Vue({
-			el: '#app',
-			data() {
-				return {
-					show: true,
-					asdf: false,
-					asdfd: [1, 2, 3, 4],
-					lkj: [{
-						a: 23,
-						b: 23
-					}]
-				}
-			},
-			methods: {
-				handlerClick: function () {
-					this.show = !this.show
-				}
-			},
-		});
-	</script>
-
-</body>
-
+    <body>
+        <div id="app">
+            <!-- name:css动画,css类名称前缀 -->
+            <transition name="myFade">
+                <div v-if="show">hello world</div>
+            </transition>
+            <button @click="handlerClick" style="opacity: 1;">click</button>
+        </div>
+        <script>
+            let vm = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        show: true,
+                        asdf: false,
+                        asdfd: [1, 2, 3, 4],
+                        lkj: [
+                            {
+                                a: 23,
+                                b: 23
+                            }
+                        ]
+                    }
+                },
+                methods: {
+                    handlerClick: function() {
+                        this.show = !this.show
+                    }
+                }
+            })
+        </script>
+    </body>
 </html>

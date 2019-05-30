@@ -4,13 +4,15 @@
 <head>
 	<meta charset="UTF-8">
 	<title>vue生命周期</title>
-	<script src="../vue.js"></script>
+	<script src="../resource/vue.js"></script>
 </head>
 
 <body>
 	<div id="app">
 		<div>{{message +" abc"}}</div>
+		<div>v-text</div>
 		<div v-text="message +' abc'"></div>
+		<div>v-html</div>
 		<div v-html="message +' abc'"></div>
 	</div>
 	<script>
@@ -28,29 +30,34 @@
 			beforeCreate() {
 				console.log('beforeCreated')
 				console.log(this.$el)
+				console.log(this.$data);
+				
 			},
 			created() {
 				// 可以在这里获取网络数据
 				console.log('created')
 				console.log(this.$el)
+				console.log(this.$data);
 			},
 			beforeMount() {
 				// 还是原始dom
 				console.log('beforeMount')
 				console.log(this.$el)
+				console.log(this.$data);
 			},
 			mounted() {
 				// 已经渲染的dom
 				console.log('mounted')
 				console.log(this.$el)
+				console.log(this.$data);
 			},
 			beforeDestroy() {
-				// 需要手动调用 vm.$destory
+				// 需要手动调用 vm.$destroy()
 				console.log('beforeDestroy')
 				console.log(this.$el)
 			},
 			destroyed() {
-				// 需要手动调用 vm.$destory
+				// 需要手动调用 vm.$destroy()
 				console.log('destroyed')
 				console.log(this.$el)
 			},

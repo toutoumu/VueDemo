@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>非父子组件传值(观察者模式)</title>
+        <script src="../resource/vue.js"></script>
+    </head>
+
+    <body>
+        <div id="app">
+            <child content="adb"></child>
+            <child content="adbd"></child>
+        </div>
+        <script>
+            // 在原型链上注册bus
+            Vue.prototype.bus = new Vue()
+
+            // 定义组件
+            Vue.component('child', {
+                data() {
+                    return {
+                        // 用于保存父组件传递过来的值
+                        selfContent: this.content
+                    }
+                },
+                props: {
+                    content: String
+                },
+                template: `<div @click="handlerClick"> {{selfContent}} </div>`,
+                methods: {
+                    handlerClick() {
+                        // 触发[change]事件
+                        this.bus.$emit('change', this.selfContent)
+                    }
+                },
+                mounted() {
+                    const this_ = this
+                    // 子组件挂载的时候监听[change]事件
+                    this.bus.$on('change', function(msg) {
+                        this_.selfContent = msg
+                    })
+                }
+            })
+
+            let vm = new Vue({
+                el: '#app'
+            })
+        </script>
+    </body>
+</html>

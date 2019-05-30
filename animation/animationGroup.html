@@ -1,56 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>动画使用同时使用过渡和动画</title>
+        <script src="../resource/vue.js"></script>
+        <!-- https://daneden.github.io/animate.css/ -->
+        <link rel="stylesheet" href="../resource/animate.css" type="text/css" />
+        <style>
+            /* 动画开始的第一帧添加这个样式 */
+            .myFade-enter,
+            .myFade-leave-to {
+                opacity: 0;
+            }
 
-<head>
-	<meta charset="UTF-8">
-	<title>动画使用同时使用过渡和动画</title>
-	<script src="../vue.js"></script>
-	<!-- https://daneden.github.io/animate.css/ -->
-	<link rel="stylesheet" href="../animate.css" type="text/css">
-	<style>
-		/* 动画开始的第一帧添加这个样式 */
-		.myFade-enter,
-		.myFade-leave-to {
-			opacity: 0;
-		}
+            /* 动画开始第二帧添加这个,一次上面的, 过渡时间 n秒 不透明度从 0 变到 1 (不透明) */
+            .myFade-enter-active,
+            .myFade-leave-active {
+                transition: opacity 3s;
+            }
+        </style>
+    </head>
 
-		/* 动画开始第二帧添加这个,一次上面的, 过渡时间 n秒 不透明度从 0 变到 1 (不透明) */
-		.myFade-enter-active,
-		.myFade-leave-active {
-			transition: opacity 3s;
-		}
-	</style>
-</head>
-
-<body>
-	<div id="app">
-		<transition name='myFade' appear 
-			:duration='{enter:5000,leave:10000}' 
-			enter-active-class="animated swing myFade-enter-active"
-			leave-active-class="animated shake myFade-leave-active"
-			appear-active-class="animated swing"
-			>
-
-			<div v-if="show">hello world</div>
-		</transition>
-		<button @click="handlerClick" style="opacity: 1;">click</button>
-	</div>
-	<script>
-		let vm = new Vue({
-			el: '#app',
-			data() {
-				return {
-					show: true,
-				}
-			},
-			methods: {
-				handlerClick: function () {
-					this.show = !this.show
-				}
-			},
-		});
-	</script>
-
-</body>
-
+    <body>
+        <div id="app">
+			<!-- 使用 :duration = "500" :duration="{enter:5000,leave:10000}" 指定动画执行时间 -->
+			<!-- 或者使用 type ="transition" 以过渡动画时长为准 -->
+			<transition
+                name="myFade"
+                appear
+                :duration="{enter:5000,leave:10000}"
+                enter-active-class="animated swing myFade-enter-active"
+                leave-active-class="animated shake myFade-leave-active"
+                appear-active-class="animated swing"
+            >
+                <div v-if="show">hello world</div>
+            </transition>
+            <button @click="handlerClick" style="opacity: 1;">click</button>
+        </div>
+        <script>
+            let vm = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        show: true
+                    }
+                },
+                methods: {
+                    handlerClick: function() {
+                        this.show = !this.show
+                    }
+                }
+            })
+        </script>
+    </body>
 </html>

@@ -1,73 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <!-- http://velocityjs.org/ -->
+        <!-- https://www.cnblogs.com/guandekuan/p/6643988.html -->
+        <title>动画封装</title>
+        <script src="../resource/vue.js"></script>
+        <script src="../resource/velocity.min.js"></script>
+        <!-- https://daneden.github.io/animate.css/ -->
+        <link rel="stylesheet" href="../resource/animate.css" type="text/css" />
+    </head>
 
-<head>
-	<meta charset="UTF-8">
-	<!-- http://velocityjs.org/ -->
-	<!-- https://www.cnblogs.com/guandekuan/p/6643988.html -->
-	<title>动画velocity</title>
-	<script src="../vue.js"></script>
-	<script src="../velocity.min.js"></script>
-	<!-- https://daneden.github.io/animate.css/ -->
-	<link rel="stylesheet" href="../animate.css" type="text/css">
+    <body>
+        <div id="app">
+            <fade :show="show">
+                <div>adf</div>
+            </fade>
+            <button @click="handlerClick">click</button>
+        </div>
+        <script>
+            Vue.component('fade', {
+                props: {
+                    show: {
+                        type: Boolean,
+                        default: true
+                    }
+                },
+                template: `
+                <transition  
+                     @before-appear="handlerBeforeAppear"
+                     @appear="handlerAppear"
+                     @after-appear="handlerAfterAppear"
+                     @before-enter='handlerBeforeEnter' 
+                     @enter='handlerEnter'  
+                     @after-enter='handlerAfterEnter'
+                     @before-leave="handlerBeforeLeave"
+                     @leave="hanlderLeave" 
+                     @after-leave="handlerAfterLeave"
+                     > 
+                     <slot v-if='show'></slot>  
+                </transition>`,
+                methods: {
+                    handlerBeforeAppear(el) {
+                        el.style.opacity = 0
+                    },
+                    handlerAppear(el, done) {
+                        // 需要手动调用 done() 表示动画执行完成
+                        Velocity(
+                            el,
+                            { opacity: 1 },
+                            { duration: 1000, complete: done }
+                        )
+                    },
+                    handlerAfterAppear(el) {
+                        el.style.color = 'red'
+                    },
 
-</head>
+                    handlerBeforeEnter(el) {
+                        el.style.opacity = 0
+                    },
+                    handlerEnter(el, done) {
+                        // 需要手动调用 done() 表示动画执行完成
+                        Velocity(
+                            el,
+                            { opacity: 1 },
+                            { duration: 1000, complete: done }
+                        )
+                    },
+                    handlerAfterEnter(el) {
+                        el.style.color = 'red'
+                    },
 
-<body>
-	<div id="app">
-		<fade :show='show'>
-			<div>adf</div>
-		</fade>
-		<button @click="handlerClick">click</button>
-	</div>
-	<script>
-		Vue.component('fade', {
-			props: {
-				show: {
-					type: Boolean,
-					default: true
-				},
-			},
-			template: "<transition " +
-				"		@before-enter='handlerBeforeEnter' " +
-				"		@enter='handlerEnter' " +
-				"		@after-enter='handlerAfterEnter'> " +
-				" 			<slot v-if='show'></slot> " +
-				"		</transition>",
-			methods: {
-				handlerBeforeEnter(el) {
-					el.style.opacity = 0
-				},
-				handlerEnter(el, done) {
-					Velocity(el, {
-						opacity: 1
-					}, {
-						duration: 1000,
-						complete: done
-					})
-				},
-				handlerAfterEnter(el) {
-					el.style.color = 'red'
-				}
-			},
-		})
+                    handlerBeforeLeave(el) {
+                        el.style.opacity = 1 /* 1不透明 */
+                        console.log('handlerBeforeLeave')
+                    },
+                    hanlderLeave(el, done) {
+                        // 需要手动调用 done() 表示动画执行完成
+                        console.log('hanlderLeave')
+                        Velocity(
+                            el,
+                            { opacity: 0 } /* 1不透明 */,
+                            { duration: 1000, complete: done }
+                        )
+                    },
+                    handlerAfterLeave(el) {
+                        console.log('handlerAfterLeave')
+                        el.style.color = 'black'
+                    }
+                }
+            })
 
-		let vm = new Vue({
-			el: '#app',
-			data() {
-				return {
-					show: true,
-				}
-			},
-			methods: {
-				handlerClick: function () {
-					this.show = !this.show
-				},
-
-			},
-		});
-	</script>
-
-</body>
-
+            let vm = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        show: true
+                    }
+                },
+                methods: {
+                    handlerClick: function() {
+                        this.show = !this.show
+                    }
+                }
+            })
+        </script>
+    </body>
 </html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Title</title>
+        <script src="./resource/vue.js"></script>
+    </head>
+
+    <body>
+        <div id="app">
+            <button v-on:click="addItem">添加</button>
+            <button v-on:click="update">修改</button>
+            <button v-on:click="del">删除</button>
+            <ul>
+                <!-- template标签 不会被渲染出来 -->
+                <template v-for="(item, index) in list">
+                    <li :key="item.id">{{ item.content }}</li>
+                </template>
+                <!-- <li v-for="(item, index) in list" :key="item.id">{{item.content}}</li> -->
+            </ul>
+
+            <!-- 循环对象 -->
+            <div v-for="(item, key, index) in objs" :key="index">
+                {{ index }} - {{ key }} = {{ item }}
+            </div>
+        </div>
+
+        <script>
+            // js数组操作大全 https://www.cnblogs.com/lzm1989/p/5967815.html
+            // push pop shift unshift splice sort reverse
+            let vm = new Vue({
+                el: '#app',
+                data: {
+                    objs: { name: '刘斌', age: 23, sex: 1 },
+                    list: [
+                        { id: '000', content: 'item0' },
+                        { id: '001', content: 'item1' },
+                        { id: '002', content: 'item2' },
+                        { id: '003', content: 'item3' },
+                        { id: '004', content: 'item4' }
+                    ]
+                },
+                methods: {
+                    addItem: function() {
+                        this.list.push({
+                            id: '00' + this.list.length,
+                            content: 'item' + this.list.length
+                        })
+                    },
+                    update: function() {
+                        // 修改 obj 添加不存在的属性 必须使用 Vue.set 或 vm.set 才能修改的时候 Dom 跟着刷新
+                        Vue.set(vm.objs, 'name', '用户名')
+                        vm.$set(vm.objs, 'address', '北京')
+                        // 修改数组
+                        // 使用一下方法修改数组才能使 Dom 跟着刷新 Vue.set 或 vm.set push pop shift unshift splice sort reverse
+                        this.list.splice(1, 1, { id: '001', content: 'item4' })
+                        Vue.set(vm.list, 1, { id: 'ddd', content: 'ddd' })
+                        vm.$set(vm.list, 1, { id: '001', content: 'ddd' })
+                    },
+                    del: function() {
+                        this.list.pop()
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
