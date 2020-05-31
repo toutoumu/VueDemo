@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-        <script src="resource/vue.js"></script>
-        <title>helloworld</title>
-    </head>
-    <body>
-        <div id="app"></div>
-        <script>
-            const app = new Vue({
-                el: '#app',
-                data() {
-                    return {
-                        message: 'value'
-                    }
-                }
-            })
-        </script>
-    </body>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <script src="resource/vue.js"></script>
+    <title>helloWorld</title>
+</head>
+<body>
+<div id="app">{{message}}</div>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                message: 'value',
+            }
+        },
+    })
+    setTimeout(function () {
+        app.$data.message = 'abc'
+    }, 2000)
+</script>
+</body>
 </html>

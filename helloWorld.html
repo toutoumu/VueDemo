@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-        <script src="resource/vue.js"></script>
-        <title>helloworld</title>
-    </head>
-    <body>
-        <div id="app">{{ content }}</div>
-        <script>
-            const app = new Vue({
-                el: '#app', // 接管页面中ID 为 app 的部分
-                data() {
-                    // 定义数据
-                    return {
-                        content: 'helloworld'
-                    }
-                }
-            })
-            setTimeout(() => {
-                // 或者app.$data.content = 'ccc'
-                app.content = 'ccc'
-            }, 2000)
-        </script>
-    </body>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <script src="resource/vue.js"></script>
+    <title>helloWorld</title>
+</head>
+<body>
+<div id="app">{{ content }}</div>
+<script>
+    const app = new Vue({
+        el: '#app', // 接管页面中ID 为 app 的部分
+        data() {
+            // 定义数据
+            return {
+                content: 'helloWorld',
+            }
+        },
+    })
+    setTimeout(() => {
+        // 或者app.$data.content = 'ccc'
+        app.content = 'ccc'
+    }, 2000)
+</script>
+</body>
 </html>

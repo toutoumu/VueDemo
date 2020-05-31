@@ -1,95 +1,95 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-        <script src="../resource/vue.js"></script>
-        <title>vueTodoList</title>
-    </head>
-    <body>
-        <div id="app">
-            <!-- v-model='data中属性名称' 与 data 中的数据双向绑定 -->
-            <input type="text" v-model="content" />
-            <!-- @[事件名称] 为 button 绑定 methods 中的事件 -->
-            <button @click="handlerBtnClick">提交</button>
-            <ul>
-                <li v-for="(item,index) in list" :key="index">
-                    {{ index }}--{{ item }}
-                </li>
-                <!-- @delete 监听组件自定义事件  -->
-                <todo-item
-                    @delete="handlerItemDelete"
-                    v-for="(item, index) in list"
-                    :item="item"
-                    :index="index"
-                    :key="index"
-                ></todo-item>
-                <todo
-                    v-for="(item, index) in list"
-                    :item="item"
-                    :index="index"
-                    :key="index"
-                ></todo>
-            </ul>
-        </div>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <script src="../resource/vue.js"></script>
+    <title>vueTodoList</title>
+</head>
+<body>
+<div id="app">
+    <!-- v-model='data中属性名称' 与 data 中的数据双向绑定 -->
+    <input type="text" v-model="content"/>
+    <!-- @[事件名称] 为 button 绑定 methods 中的事件 -->
+    <button @click="handlerBtnClick">提交</button>
+    <ul>
+        <li v-for="(item,index) in list" :key="index">
+            {{ index }}--{{ item }}
+        </li>
+        <!-- @delete 监听组件自定义事件  -->
+        <todo-item
+                @delete="handlerItemDelete"
+                v-for="(item, index) in list"
+                :item="item"
+                :index="index"
+                :key="index"
+        ></todo-item>
+        <todo
+                v-for="(item, index) in list"
+                :item="item"
+                :index="index"
+                :key="index"
+        ></todo>
+    </ul>
+</div>
 
-        <script>
-            // 注册一个全局组件
-            Vue.component('TodoItem', {
-                // 为模板定义 index 和 item 属性
-                // props:['index','item']
-                props: {
-                    index: Number,
-                    item: String
-                },
-                template:
-                    '<li @click="handlerItemClick">{{index}}--{{item}}</li>',
-                methods: {
-                    handlerItemClick() {
-                        // 触发 自定义事件 [delete] 并传递参数
-                        this.$emit('delete', this.index)
-                    }
-                }
-            })
+<script>
+    // 注册一个全局组件
+    Vue.component('TodoItem', {
+        // 为模板定义 index 和 item 属性
+        // props:['index','item']
+        props: {
+            index: Number,
+            item: String,
+        },
+        template:
+            '<li @click="handlerItemClick">{{index}}--{{item}}</li>',
+        methods: {
+            handlerItemClick() {
+                // 触发 自定义事件 [delete] 并传递参数
+                this.$emit('delete', this.index)
+            },
+        },
+    })
 
-            // 定义一个局部组件, 局部组件需要在 components 注册
-            const Todo = {
-                props: {
-                    index: Number,
-                    item: String
-                },
-                template: '<li>{{index}}--{{item}}</li>'
+    // 定义一个局部组件, 局部组件需要在 components 注册
+    const Todo = {
+        props: {
+            index: Number,
+            item: String,
+        },
+        template: '<li>{{index}}--{{item}}</li>',
+    }
+
+    const app = new Vue({
+        el: '#app', // 接管页面中ID 为 app 的部分
+        components: {
+            Todo: Todo, // 注册局部组件
+        },
+        data() {
+            // 定义数据
+            return {
+                content: '',
+                list: ['第一个的内容', '第二课的内容'],
             }
-
-            const app = new Vue({
-                el: '#app', // 接管页面中ID 为 app 的部分
-                components: {
-                    Todo: Todo // 注册局部组件
-                },
-                data() {
-                    // 定义数据
-                    return {
-                        content: '',
-                        list: ['第一个的内容', '第二课的内容']
-                    }
-                },
-                methods: {
-                    handlerBtnClick() {
-                        if (this.content) {
-                            this.list.push(this.content)
-                            this.content = ''
-                        }
-                    },
-                    handlerItemDelete(index) {
-                        this.list.splice(index, 1)
-                    }
+        },
+        methods: {
+            handlerBtnClick() {
+                if (this.content) {
+                    this.list.push(this.content)
+                    this.content = ''
                 }
-            })
-            // 定时器
-            setTimeout(() => {
-                // 或者app.$data.content = 'ccc'
-                app.content = 'ccc'
-            }, 2000)
-        </script>
-    </body>
+            },
+            handlerItemDelete(index) {
+                this.list.splice(index, 1)
+            },
+        },
+    })
+    // 定时器
+    setTimeout(() => {
+        // 或者app.$data.content = 'ccc'
+        app.content = 'ccc'
+    }, 2000)
+</script>
+</body>
 </html>

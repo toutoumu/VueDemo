@@ -1,45 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title>动态组件</title>
-        <script src="./resource/vue.js"></script>
-    </head>
+<head>
+    <meta charset="UTF-8"/>
+    <title>动态组件与v-once指令</title>
+    <script src="./resource/vue.js"></script>
+</head>
 
-    <body>
-        <div id="app">
-            <!-- is 的值是组件的名称 , 值是什么[chiild-one]就显示那个组件-->
-            <component :age='2' :is="type"></component>
-            <button @click="handlerClick">试一试</button>
-        </div>
-        <script>
-            // 加上 v-once 组件加载之后会缓存在内存中, 当组件切换时可以直接拿来使用
-            Vue.component('chiild-one', {
-                props: {
-                    age: {
-                        type: Number,
-                        default: 0
-                    }
-                },
-                template: '<div v-once>child-one{{age}}</div>'
-            })
-            Vue.component('chiild-two', {
-                template: '<div v-once>child-two</div>'
-            })
-            let vm = new Vue({
-                el: '#app',
-                data: {
-                    type: 'chiild-one'
-                },
-                methods: {
-                    handlerClick() {
-                        this.type =
-                            this.type == 'chiild-one'
-                                ? 'chiild-two'
-                                : 'chiild-one'
-                    }
-                }
-            })
-        </script>
-    </body>
+<body>
+<div id="app">
+    <!-- is 的值是组件的名称 , 值是什么[child-one]就显示那个组件-->
+    <component :age='2' :is="type"></component>
+    <button @click="handlerClick">试一试</button>
+</div>
+<script>
+    // 加上 v-once 组件加载之后会缓存在内存中, 当组件切换时可以直接拿来使用
+    Vue.component('child-one', {
+        props: {
+            age: {
+                type: Number,
+                default: 0,
+            },
+        },
+        template: '<div v-once>child-one{{age}}</div>',
+    })
+    Vue.component('child-two', {
+        template: '<div v-once>child-two</div>',
+    })
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            type: 'child-one',
+        },
+        methods: {
+            handlerClick() {
+                this.type =
+                    this.type == 'child-one'
+                        ? 'child-two'
+                        : 'child-one'
+            },
+        },
+    })
+</script>
+</body>
 </html>

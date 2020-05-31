@@ -1,60 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title>样式绑定</title>
-        <script src="./resource/vue.js"></script>
-        <style>
-            .redBtn {
-                color: red;
-            }
-        </style>
-    </head>
+<head>
+    <meta charset="UTF-8"/>
+    <title>样式绑定</title>
+    <script src="./resource/vue.js"></script>
+    <style>
+        .redBtn {
+            color: red;
+        }
+    </style>
+</head>
 
-    <body>
-        <div id="app">
-            <!-- 如果isA为ture那么会添加redBtn样式 -->
-            <button @click="clicked0" :class="{redBtn:isA}">点击0</button>
-            <!-- 这里会添加redColor字符串代表的样式 -->
-            <button @click="clicked1" :class="[redColor]">点击1</button>
-            <!-- 这里会添加classObj对应的样式 -->
-            <button @click="clicked0" :class="classObj">点击0</button>
-
-            <!-- 直接绑定到style -->
-            <button @click="clicked2" :style="styleObj">点击2</button>
-        </div>
-        <script>
-            let app = new Vue({
-                el: '#app',
-                data: {
-                    isA: false,
-                    redColor: '',
-                    styleObj: {
-                        color: 'red',
-                        'font-size': '50px'
-                    }
-                },
-                methods: {
-                    clicked0: function() {
-                        this.isA = !this.isA
-                    },
-                    clicked1: function() {
-                        this.redColor =
-                            this.redColor === 'redBtn' ? '' : 'redBtn'
-                    },
-                    clicked2: function() {
-                        this.styleObj.color =
-                            this.styleObj.color == 'red' ? 'black' : 'red'
-                    }
-                },
-                computed: {
-                    classObj() {
-                        return {
-                            redBtn: this.isA
-                        }
-                    }
+<body>
+<div id="app">
+    <!-- 如果isA为ture那么会添加redBtn样式 -->
+    <button @click="clicked0" :class="{redBtn:isA}">点击0</button>
+    <!-- 这里会添加redColor字符串代表的样式 -->
+    <button @click="clicked1" :class="[redColor]">点击1</button>
+    <!-- 这里会添加classObj对应的样式 -->
+    <button @click="clicked0" :class="classObj">点击0</button>
+    
+    <!-- 直接绑定到style -->
+    <button @click="clicked2" :style="styleObj">点击2</button>
+</div>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data: {
+            isA: false,
+            redColor: '',
+            styleObj: {
+                color: 'red',
+                'font-size': '50px',
+            },
+        },
+        methods: {
+            clicked0: function () {
+                this.isA = !this.isA
+            },
+            clicked1: function () {
+                this.redColor =
+                    this.redColor === 'redBtn' ? '' : 'redBtn'
+            },
+            clicked2: function () {
+                this.styleObj.color =
+                    this.styleObj.color == 'red' ? 'black' : 'red'
+            },
+        },
+        computed: {
+            classObj() {
+                return {
+                    redBtn: this.isA,
                 }
-            })
-        </script>
-    </body>
+            },
+        },
+    })
+</script>
+</body>
 </html>
