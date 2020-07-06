@@ -15,7 +15,10 @@
                 </div>
                 <!-- slot属性弃用，具名插槽通过指令参数v-slot:插槽名的形式传入，可以简化为#插槽名 -->
                 <!-- <div slot="footer">这里是footer</div> -->
-                <div v-slot:footer>这里是footer</div>
+                <!-- v-slot属性只能在template上使用，但在**【只有默认插槽时】**可以在组件标签上使用 -->
+                <template v-slot:footer>
+                    <div>这里是footer</div>
+                <template>
             </body-content>
         </div>
         <script>
