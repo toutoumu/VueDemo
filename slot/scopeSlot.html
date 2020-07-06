@@ -12,7 +12,10 @@
                 <!-- 使用 [param] 接收 slot 传递过来的参数 arrayItem 和 abc  -->
                 <!-- slot 的每一项都会应用下面的内容进行渲染 -->
                 <!-- 必须是template -->
-                <template slot-scope="param">
+                <!-- slot-scope属性弃用，作用域插槽通过v-slot:xxx="slotProps"的slotProps来获取子组件传出的属性 -->
+		<!-- v-slot:插槽名称(可选)="接收参数的参数名称" -->
+		<!-- <template slot-scope="param"> -->
+		<template v-slot="param">
                     <li :key="param.abc">
                         {{ param.abc }} -- {{ param.arrayItem }}
                     </li>
